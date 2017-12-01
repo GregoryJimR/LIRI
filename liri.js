@@ -59,21 +59,31 @@ function omdbIt() {
     //console.log("omdbIt");
     compileInput();
     //console.log(input);
-    var movieTitle = input;
-    request("http://www.omdbapi.com/?t=" + movieTitle + "=&plot=short&apikey=" + keys.omdbKeys, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-            console.log("Title: " + JSON.parse(body).Title);
-            console.log("Year released: " + JSON.parse(body).Year);
-            console.log("IMDB rating: " + JSON.parse(body).imdbRating);
-            console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings.Rotten_Tomatoes);
-            console.log("Country: " + JSON.parse(body).Country);
-            console.log("Language: " + JSON.parse(body).Language);
-            console.log("Plot: " + JSON.parse(body).Plot);
-            console.log("Actors: " + JSON.parse(body).Actors);
-        }
-    });
-}
+    var movieTitle;
+    var movieSearch = function() {
+        request("http://www.omdbapi.com/?t=" + movieTitle + "=&plot=short&apikey=" + keys.omdbKeys, function(error, response, body) {
+            if (!error && response.statusCode === 200) {
+                console.log("Title: " + JSON.parse(body).Title);
+                console.log("Year released: " + JSON.parse(body).Year);
+                console.log("IMDB rating: " + JSON.parse(body).imdbRating);
+                console.log("Rotten Tomatoes rating: " + JSON.parse(body).Ratings[1].Value);
+                console.log("Country: " + JSON.parse(body).Country);
+                console.log("Language: " + JSON.parse(body).Language);
+                console.log("Plot: " + JSON.parse(body).Plot);
+                console.log("Actors: " + JSON.parse(body).Actors);
+            }
+        });
+    };
+    if (input === "") {
+        movieTitle = "Mr. Nobody";
+        movieSearch();
+    }
+    else {
+        movieTitle = input;
+        movieSearch();
 
+    }
+}
 
 // liri.js do-what-it-says
 //     using the fs (install fs and require it), grabs text from random.txt (use read) and spotify's the text
