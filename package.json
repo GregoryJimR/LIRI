@@ -1,0 +1,25 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "liri",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GregoryJimR/GregoryJimR.github.io.git"
+  },
+  "author": "Jim Gregory",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GregoryJimR/GregoryJimR.github.io/issues"
+  },
+  "homepage": "https://github.com/GregoryJimR/GregoryJimR.github.io#readme",
+  "dependencies": {
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.83.0",
+    "spotify-web-api-node": "^2.5.0",
+    "twitter": "^1.7.1"
+  }
+}
