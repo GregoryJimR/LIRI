@@ -1,12 +1,11 @@
 //code to grab data from keys.js
 var Twitter = require("twitter");
+var fs = require("fs");
 var SpotifyWebApi = require('node-spotify-api');
 var request = require("request");
 const keys = require("./keys.js"),
     twitterClient = new Twitter(keys.twitterKeys),
-    spotifyClient = new SpotifyWebApi(keys.spotifyKeys),
-    omdbKeys = keys.omdbKeys;
-//console.log(spotifyClient);
+    spotifyClient = new SpotifyWebApi(keys.spotifyKeys);
 var inputType = process.argv[2];
 var input = "";
 
@@ -33,12 +32,12 @@ function tweetIt() {
 // liri.js spotify-this-song '<song name here>' - Shows the following: [artist, Song's Name, A preview link from spotify, the album]
 // if no song, show "The Sign" by Ace of Base
 // see node-spotify-api npm
-function spotifyIt() {
+function spotifyIt(input) {
     compileInput();
-    console.log("input: " + input);
+    //console.log("input: " + input);
     var song;
     if (input === "") {
-        song = "The Sign";
+        song = "The Sign ace of base";
     }
     else {
         song = input;
@@ -47,8 +46,10 @@ function spotifyIt() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-
-        console.log(data);
+        console.log("Artist Name: " + (data).tracks.items[0].album.artists[0].name);
+        console.log("Song Name: " + (data).tracks.items[0].name);
+        console.log("Preview Link: " + (data).tracks.items[0].preview_url);
+        console.log("Album: " + (data).tracks.items[0].album.name);
     });
 
 }
@@ -77,7 +78,13 @@ function omdbIt() {
 // liri.js do-what-it-says
 //     using the fs (install fs and require it), grabs text from random.txt (use read) and spotify's the text
 function doIt() {
-
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        var dataArr = data.split(",");
+        spotifyIt(dataArr[1]);
+    });
 }
 //create switch here.  Will identify inputType[2] and act accordingly
 switch (inputType) {
@@ -87,7 +94,7 @@ switch (inputType) {
         break;
     case "spotify-this-song":
         spotifyIt();
-        console.log("spotify");
+        //console.log("spotify");
         break;
     case "movie-this":
         omdbIt();
